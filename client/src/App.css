@@ -11,10 +11,11 @@
   --gray: #999;
   --light-gray: #e0e0e0;
   --dark-gray: #777;
+  /* overflow-y: hidden; */
 }
 
 #App .container {
-  width: 40%;
+  width: 80%;
   min-width: 60rem;
   max-width: 75rem;
   height: 100%;
@@ -109,8 +110,8 @@ hr {
   border-radius: 0 1rem 1rem 0;
 }
 
-#App .container .demo .contract-container .btns>* {
-  width: 12rem;
+#App .container .demo .contract-container .btns > * {
+  width: 14rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,12 +123,12 @@ hr {
   cursor: pointer;
 }
 
-#App .container .demo .contract-container .btns>*:hover {
+#App .container .demo .contract-container .btns > *:hover {
   background-color: var(--dark-gray);
 }
 
 #App .container .demo .contract-container .btns .input-btn input {
-  width: 4rem;
+  width: 6rem;
   text-align: center;
   font-family: monospace;
   font-size: 1.2rem;
@@ -142,9 +143,8 @@ hr {
   margin: 2rem 1rem 0 0;
 }
 
-
-
-input[type=number], input[type=text] {
+input[type="number"],
+input[type="text"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -154,9 +154,9 @@ input[type=number], input[type=text] {
   box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type="submit"] {
   width: 100%;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -165,7 +165,7 @@ input[type=submit] {
   cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type="submit"]:hover {
   background-color: #45a049;
 }
 
@@ -173,4 +173,36 @@ input[type=submit]:hover {
   border-radius: 5px;
   background-color: #fff3f4f2;
   padding: 20px;
+}
+
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td,
+#customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+  background-color: #ddd;
+}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}
+.emp-list {
+  display: flex;
+  flex-direction: column;
 }
