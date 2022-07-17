@@ -10,13 +10,19 @@ contract("Refund", function(accounts) {
     }).then(function(initialized, count) {
         console.log("IIIIIIIOOOOOOOOOOOO")
         // console.log(refundInstance.employers(1))
-      return refundInstance.employers(1);
-    }).then(function(employers) {
+      return refundInstance.employers(accounts[4]);
+   }).then(function(employers) {
       console.log("serdfcgvhbjncgvbncgvbngvhb")
       console.log(employers)
       console.log(accounts[4])
       // assert.equal(employers[1], 'Employee 1');
-      return refundInstance.Create_contract_data([878474,3067564],[4882834,325644664], 30 , 'First Contract employee' , accounts[3] , 1)
+      return refundInstance.Create_contract_data([878474,3067564],[4882834,325644664], 30 , 'First Contract employee' , accounts[3] , accounts[4])
+    }).then(function(firstcontract) {
+      console.log("serdfcgvhbjncgvbncgvbngvhb")
+      console.log(firstcontract)
+      // console.log(accounts[4])
+      // assert.equal(employers[1], 'Employee 1');
+      return refundInstance.Create_contract_data([878474,3067564],[4882834,325644664], 30 , 'Second Contract employee' , accounts[3] , accounts[4])
     }).then(function(contract) {
       console.log("contarscdggdhfjfjferferfef")
       // console.log(employers)
@@ -26,9 +32,12 @@ contract("Refund", function(accounts) {
     console.log("rtririeiieiee")
     console.log(data)
     // console.log(accounts[4])
-    return refundInstance.contracts(1)
+    return refundInstance.contracts(accounts[3])
   }).then(function(contracts) {
     console.log(contracts)
+    // return refundInstance.contracts(2)
+  // }).then(function(contracts_2) {
+  //   console.log(contracts_2)
   })
 })
 
