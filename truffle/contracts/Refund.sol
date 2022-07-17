@@ -4,6 +4,15 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Refund {
     // Model a Candidate
+
+    event CompletedEvent (
+        address employeeaddress
+    );
+
+    event FailedEvent (
+        address employeeaddress
+    );
+
     struct Employee {
         uint id;
         string name;
@@ -21,23 +30,28 @@ contract Refund {
         uint minimum_point_lat;
         uint maximum_point_long;
         uint maximum_point_lat;
+        uint starting_time;
         uint duration;
         uint last_checked;
+        uint gathered_location_count;
+        bool contract_truth;
+        uint pay_amount;
         Employee employees;
         Employer employer;
     }
     
     // Store accounts that have voted
-    mapping(uint => contract_data) public contracts;
+    mapping(address => contract_data) public contracts;
+    
     uint public Contractcount;
 
     // Store Candidates
     // Fetch Candidate
-    mapping(uint => Employee) public employees;
+    mapping(address => Employee) public employees;
     // Store Candidates Count
     uint public Employeecount;
 
-    mapping(uint => Employer) public employers;
+    mapping(address => Employer) public employers;
     // Store Candidates Count
     uint public Employercount;
 
@@ -62,17 +76,48 @@ contract Refund {
 
     function addEmployer (string memory _name , address user_address) private {
         Employercount ++;
-        employers[Employercount] = Employer(Employercount, _name, user_address);
+        employers[user_address] = Employer(Employercount, _name, user_address);
     }
     function addEmployee (string memory _name , address user_address) private {
         Employeecount ++;
-        employees[Employeecount] = Employee(Employeecount, _name, user_address);
+        employees[user_address] = Employee(Employeecount, _name, user_address);
     }
 
-    function Create_contract_data( uint[2] memory minimum_points, uint[2] memory maximum_points, uint duration, string memory employee_name , address employee_address, uint id) public{
+    function Create_contract_data( uint[2] memory minimum_points, uint[2] memory maximum_points, uint duration, string memory employee_name , address employee_address, address employer_address) public{
+        if (!employees[employee_address].isValue){
         addEmployee(employee_name, employee_address);
+         }
         Contractcount++;
-        contracts[Contractcount] = contract_data(Contractcount, minimum_points[0] , minimum_points[1] ,maximum_points[0] , maximum_points [1],duration , duration,employees[Employeecount],employers[id]);
+        contracts[employee_address] = contract_data(Contractcount, minimum_points[0] , minimum_points[1] ,maximum_points[0] , maximum_points [1], block.timestamp ,duration , 0 , 0 ,employees[employee_address],employers[employer_address]);
+    }
+
+    function get_location( uint memory longtiude, uint memory latitude, address employee_address , uint work_id) public{
+        contract_data = contracts[work_id];
+        found_employee = employees[employee_address];
+        found_contract = contracts[employee_address];
+        
+        if ( found_contract.completed != true){
+            duration = (now - found_contract.starting_time) / 60 ;
+            if (duration < found_contract.duration){ 
+                found_contract.gathered_location_count = found_contract.gathered_location_count + 1;
+                if (! (found_contract.minimum_point_long <= longitude && found_contract.maximum_point_long >= longitude && found_contract.minimum_point_lat <= latitude && found_contract.maximum_point_lat >= latitude) ){
+                    found_contract.contract_truth = false;
+                }
+            }else if ( duration >=found_contract.duration){
+                minimum_check = found_contract.duration * 3 / 4 ;
+                if (found_contract.contract_truth && minimum_check <= found_contract.gathered_location_count){
+                    found_contract.completed = true;
+                    bool sent = payable(address(this)).send(found_contract.pay_amount);
+                    require(sent, "invalid balance");
+                    CompletedEvent(employee_address);
+                }
+                else{
+                    found_contract.completed = true;
+                    FailedEvent(employee_address);
+                }
+            }
+        }
+        // contracts[Contractcount] = contract_data(Contractcount, minimum_points[0] , minimum_points[1] ,maximum_points[0] , maximum_points [1],duration , duration,employees[Employeecount],employers[id]);
     }
 
     // function vote (uint _candidateId) public {
