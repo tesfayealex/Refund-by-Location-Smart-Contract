@@ -1,8 +1,8 @@
 # Refund-by-Location-Smart-Contract
 
 This project have been uploaded to Rinkeby Testnet
-    - Admin app - https://refund-by-location-smart-contract.vercel.app/
-    - Employee app - https://drive.google.com/file/d/14oo1AmQSNL7VQ_eF5tr1EUUq2z9tUQdX/view?usp=sharing
+- Admin app - https://refund-by-location-smart-contract.vercel.app/
+- Employee app - https://drive.google.com/file/d/14oo1AmQSNL7VQ_eF5tr1EUUq2z9tUQdX/view?usp=sharing
 
 **Table of content**
 
