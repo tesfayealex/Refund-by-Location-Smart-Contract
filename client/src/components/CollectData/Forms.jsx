@@ -17,7 +17,8 @@ function MainForm({setEmployeesLs}) {
       let Employees = []
 
       for(let i=1;i<=count;i++){
-          let employees = await contract.methods.employees(i).call({ from: accounts[0] })
+          let addr = await contract.methods.employee_mapping(i).call({ from: accounts[0] })
+          let employees = await contract.methods.employees(addr).call({ from: accounts[0] })
           Employees.push(employees) 
       }
 
@@ -75,8 +76,9 @@ function MainForm({setEmployeesLs}) {
       let lt2 = lat2.split(".").join('')
       let ln1 = lng.split(".").join('')
       let ln2 = lng2.split(".").join('')
+      await contract.methods.initialize_employers([employeeAddress]);
       await contract.methods.Create_contract_data(
-        [lt1, lt2],[ln1, ln2], timer, employeeName, employeeAddress, 0
+        [lt1, lt2],[ln1, ln2], timer, employeeName, employeeAddress, accounts[0]
       ).send({ from: accounts[0] });
       getEmployees();
       setVals();
@@ -105,16 +107,15 @@ function MainForm({setEmployeesLs}) {
             <label htmlFor="tim">Timer</label>
             <input id="tim" type="number" placeholder="Timer" value={timer} onChange={handleTimerChange}/>
             
-            <label htmlFor="lt">Latitude One</label>
-            <input id="lt" type="number" step="any" placeholder="Latitude" value={lat} onChange={handleLatChange}/>
-            <label htmlFor="lt2">Latitude Two</label>
-            <input id="lt2" type="number" step="any" placeholder="Latitude" value={lat2} onChange={handleLat2Change}/>
-
+            <label htmlFor="lt">Minimum Latitude</label>
+            <input id="lt" type="number" step="any" placeholder="Minimum Latitude" value={lat} onChange={handleLatChange}/>
+            <label htmlFor="ln">Minimum Longitude</label>
+            <input id="ln" type="number" step="any" placeholder="Minimum Longitude" value={lng} onChange={handleLngChange}/>
             
-            <label htmlFor="ln">Longitude One</label>
-            <input id="ln" type="number" step="any" placeholder="Longitude" value={lng} onChange={handleLngChange}/>
-            <label htmlFor="ln2">Longitude Two</label>
-            <input id="ln2" type="number" step="any" placeholder="Longitude" value={lng2} onChange={handleLng2Change}/>
+            <label htmlFor="lt2">Maximum Latitude</label>
+            <input id="lt2" type="number" step="any" placeholder="Maximum Latitude" value={lat2} onChange={handleLat2Change}/>
+            <label htmlFor="ln2">Maximum Longitude</label>
+            <input id="ln2" type="number" step="any" placeholder="Maximum Longitude" value={lng2} onChange={handleLng2Change}/>
 
             <input type="submit" value="Submit" onClick={write}/>
         </form>
