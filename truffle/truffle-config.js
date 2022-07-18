@@ -20,9 +20,10 @@
 
 // require('dotenv').config();
 // const mnemonic = process.env["MNEMONIC"];
-// const infuraProjectId = process.env["INFURA_PROJECT_ID"];
-
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+const infuraProjectId = process.env["INFURA_PROJECT_ID"];
+const fs = require('fs');
+const mnemonic = fs.readFileSync('.secret').toString().trim();
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 module.exports = {
   /**
@@ -47,6 +48,11 @@ module.exports = {
       host: "0.0.0.0",     // Localhost (default: none)
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
+    },
+    rinkeby: {
+      provider: () => new HDWalletProvider(mnemonic, process.env["PROJECT_Id"]),
+      network_id: 4,
+      gas: 5500000,        
     },
     //
     // An additional network, but with some advanced options…
